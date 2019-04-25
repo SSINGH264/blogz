@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>New Post</h1>
+    <form method='post'>
+        <table>
+            <tr>
+                <td><label for="title">Title</label></td>
+                <td>
+                    <input name="title" type="text" value="{{title}}">
+                    <span class="error">{{title_error}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="body">Body</label></td>
+                <td>
+                    <input name="body" type="text" value="{{body}}">
+                    <span class="error">{{body_error}}</span>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value='Add Post' />
+    </form>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% with blogs = blogs %}
+{% if blogs %}
+  <ul class=flashes>
+    {% for blog in blogs %}
+    <li>
+    <h1><a href="/blog?id={{blog.id}}">{{ blog.title }}</a><h1>
+    <h3>{{ blog.body }}</h3>
+    </li>
+    <br/>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+
+{% endblock %}
