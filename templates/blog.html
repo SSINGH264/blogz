@@ -1,19 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% with blogs = blogs %}
-{% if blogs %}
+{% if users %}
   <ul class=flashes>
-    {% for blog in blogs %}
+    {% for user in users %}
+    {% for blog in user.blogs %}
     <li>
     <h1><a href="/blog?id={{blog.id}}">{{ blog.title }}</a><h1>
     <h3>{{ blog.body }}</h3>
-    <a href="/blog?user={{blog.username}}">Written By {{blog.username}}</a>
+    <a href="/blog?user={{user.username}}">Written By {{user.username}}</a>
+    </li>
+    <br/>
+    {% endfor %}
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if user %}
+  <ul class=flashes>
+    {% for blog in user.blogs %}
+    <li>
+    <h1><a href="/blog?id={{blog.id}}">{{ blog.title }}</a><h1>
+    <h3>{{ blog.body }}</h3>
+    <a href="/blog?user={{user.username}}">Written By {{user.username}}</a>
     </li>
     <br/>
     {% endfor %}
   </ul>
 {% endif %}
-{% endwith %}
 
 {% endblock %}

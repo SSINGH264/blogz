@@ -43,7 +43,7 @@ def get_all_users():
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login', 'signup', 'blog']
+    allowed_routes = ['login', 'signup', 'blog', 'index']
     if request.endpoint not in allowed_routes and 'username' not in session:
         return redirect('/login')
 
@@ -104,10 +104,10 @@ def blog():
         return render_template('post.html', title=post.title, body=post.body, username=user.username)
     elif username:
         user = User.query.filter_by(username=username).first()
-        posts = Blog.query.filter_by(owner_id=user.id)
-        return render_template('blog.html', blogs=posts)
+        return render_template('blog.html', user=user)
     else:
-        return render_template('blog.html', blogs=get_all_blogs())
+        users = get_all_users()
+        return render_template('blog.html', users=users)
 
 @app.route("/newpost", methods=['POST', 'GET'])
 def newPost():
