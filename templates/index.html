@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% with users = users %}
+{% if users %}
+  <ul class=flashes>
+    {% for user in users %}
+    <li>
+    <h1><a href="/blog?user={{user.id}}">{{ user.email }}</a><h1>
+    </li>
+    <br/>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endwith %}
+
+{% endblock %}
