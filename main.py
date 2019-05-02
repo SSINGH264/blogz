@@ -1,6 +1,8 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import cgi
+import re
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -71,19 +73,42 @@ def signup():
         verify = request.form['verify']
 
         # TODO - validate user's data
+        username_error = ''
+        password_error = ''
+        verify_error = ''
 
-        existing_user = User.query.filter_by(username=username).first()
-        if not existing_user:
-            new_user = User(username, password)
-            db.session.add(new_user)
-            db.session.commit()
-            session['username'] = username
-            return redirect('/blog')
+        if not username:
+            username_error = "Username is required"
+        elif len(re.findall('\S+', username)) != 1 or ' ' in username or len(username) < 3 or len(username) > 20:
+            username_error = "Username is not valid"
+
+        if not password:
+            password_error = "Password is required"
+        elif len(re.findall('\S+', password)) != 1 or ' ' in password or len(password) < 3 or len(password) > 20:
+            password_error = "Password is not valid"
+
+        if not verify:
+            verify_error = "Verify Password is required"
+        elif password != verify:
+            verify_error = "Passwords must match"
+
+        if username_error or password_error or verify_error:
+            return render_template('signup.html', username=username, username_error=username_error, 
+            password=password, password_error=password_error,
+            verify=verify, verify_error=verify_error)
         else:
-            # TODO - user better response messaging
-            return "<h1>Duplicate user</h1>"
-
-    return render_template('signup.html')
+            existing_user = User.query.filter_by(username=username).first()
+            if not existing_user:
+                new_user = User(username, password)
+                db.session.add(new_user)
+                db.session.commit()
+                session['username'] = username
+                return redirect('/blog')
+            else:
+                # TODO - user better response messaging
+                return "<h1>Duplicate user</h1>"
+    else:
+        return render_template('signup.html')
 
 @app.route('/logout')
 def logout():
