@@ -6,7 +6,7 @@
   <ul class=flashes>
     {% for user in users %}
     <li>
-    <h1><a href="/blog?user={{user.id}}">{{ user.email }}</a><h1>
+    <h1><a href="/blog?user={{user.username}}">{{ user.username }}</a><h1>
     </li>
     <br/>
     {% endfor %}

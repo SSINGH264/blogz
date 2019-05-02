@@ -8,6 +8,7 @@
     <li>
     <h1><a href="/blog?id={{blog.id}}">{{ blog.title }}</a><h1>
     <h3>{{ blog.body }}</h3>
+    <a href="/blog?user={{blog.username}}">Written By {{blog.username}}</a>
     </li>
     <br/>
     {% endfor %}
